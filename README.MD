@@ -1,5 +1,5 @@
 #Solution to the challenge given below. 
-### Instructions;
+### Instructions
   - vagrant up
 
 #DevOps Challenge - Rakuten
