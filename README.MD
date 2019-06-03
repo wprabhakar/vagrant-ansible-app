@@ -1,7 +1,9 @@
-#Challenge is given below.
-vagrant up
+#Solution to the challenge given below. 
+### Instructions;
+  - vagrant up
 
 #DevOps Challenge - Rakuten
+
 
 Get this [app](https://bitbucket.org/azneita/devops-challenge.git) up and running on a [Vagrant VM](https://www.vagrantup.com/) using your known production best practices as well as the instructions in the guidelines below.
 
