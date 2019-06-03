@@ -1,0 +1,68 @@
+---
+- name: Create Group
+  group:
+    name: "fappgrp"
+    state: present
+
+- name: Create User
+  user:
+    name: "fappusr"
+    groups: "fappgrp"
+    comment: "User for flask app"
+    state: present
+
+- name: copy logrotate config file
+  template: 
+    src=logrotate 
+    dest=/etc/logrotate.d/flaskapp
+
+# - name: copy supervisor config file
+#   template: 
+#     src=supervisor 
+#     dest=/etc/supervisor/conf.d/flaskapp.conf
+
+- name: copy flaskapp service file
+  template: 
+    src=flaskapp.service 
+    dest=/etc/systemd/system/flaskapp.service
+#  notify:
+ #   - reload systemd
+#    - restart flaskapp
+
+- name: Clone Git
+  git:
+    repo: https://bitbucket.org/azneita/devops-challenge.git
+    dest: /webapps/devops
+    version: master
+    accept_hostkey: yes
+
+- name: Pip - install requirements using shell
+  become: yes
+#  become_user: fappusr
+  shell: |
+    cd /webapps/devops
+    pip3 install -r requirements.txt
+  args:
+    executable: /bin/bash
+  register: pip_script_result
+
+# - name: Start service supervisor, if not started
+#   service:
+#     name: supervisord
+#     state: started
+
+- name: Enable flaskapp Service
+  service:
+    name: flaskapp.service
+    enabled: yes
+
+- name: Start flaskapp Service
+  service:
+    name: flaskapp.service
+    state: reloaded
+
+#- name: Enable Services
+#  become: yes
+#  become_user: fappusr
+#  shell: |
+#    systemctl --user enable flaskapp.service

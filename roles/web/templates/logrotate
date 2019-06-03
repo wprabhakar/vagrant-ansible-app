@@ -1,0 +1,12 @@
+/var/log/flaskapp*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    notifempty
+    create 0640 fappusr fappgrp
+    sharedscripts
+    postrotate
+        supervisorctl start flaskapp
+    endscript
+}

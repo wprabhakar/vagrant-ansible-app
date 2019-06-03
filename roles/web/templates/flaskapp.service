@@ -1,0 +1,15 @@
+[Unit]
+Description=Flask Python Web application
+After=network.target
+
+[Service]
+WorkingDirectory=/webapps/devops
+ExecStart=/usr/bin/python3 app.py
+StandardOutput=/var/log/flaskapp.out.log
+StandardError=/var/log/flaskapp.err.log
+Restart=always
+User=fappusr
+Group=fappgrp
+
+[Install]
+WantedBy=multi-user.target
